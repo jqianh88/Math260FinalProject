@@ -8,6 +8,7 @@
 '''
 
 import numpy as np
+from DessertData import DessertData
 
 from sklearn.datasets import make_regression, make_classification, make_blobs
 import pandas as pd
@@ -18,6 +19,10 @@ import matplotlib.pyplot as plt
 
 
 if __name__ == '__main__':
+    # Constants
+    numrows = 10
+    noiselevel = 0.1
+    percent = .9
     # maybe for loop
 
     # cleandataset with feat and class
