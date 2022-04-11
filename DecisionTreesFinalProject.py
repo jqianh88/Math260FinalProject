@@ -10,9 +10,7 @@
 import numpy as np
 from DessertData import DessertData
 
-from sklearn.datasets import make_regression, make_classification, make_blobs
-import pandas as pd
-import matplotlib.pyplot as plt
+
 
 
 
