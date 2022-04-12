@@ -7,8 +7,9 @@
 
 '''
 
-import numpy as np
+# import numpy as np
 from DessertData import DessertData
+from DecisionTree import DecisionTree
 
 
 
@@ -32,5 +33,5 @@ if __name__ == '__main__':
 
     decision = DecisionTree(data.features, data.classes)  # Decision tree
     trainset, testset = data.split(percent)     # Splitting data
-    decision.train(trainset)                    # Train the set
-    probability = decision.test(testset)        # Probability correct
+    decision.train(trainset.features, trainset.classes)
+    probability = decision.test(testset.features, testset.classes)
