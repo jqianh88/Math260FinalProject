@@ -1,6 +1,8 @@
-#import random
+# import random
 import numpy as np
-#import pandas as pd
+
+
+# import pandas as pd
 
 
 class DessertData:
@@ -12,21 +14,18 @@ class DessertData:
 
 
     '''
-<<<<<<< HEAD
     # Dessert Classes - Constants
     Dessert = 0
     Water = 1
 
     # Dessert Features - Constants
-    meal_consumption = 0            #['Ate', 'Fasted']
-    satiety_level = 1               #['Full', 'Hungry']
-    nutritional_value = 2           #['Healthy', 'Unhealthy']
-    enticement_level = 3            #['Tasty', 'Unenticing']
+    meal_consumption = 0  # ['Ate', 'Fasted']
+    satiety_level = 1  # ['Full', 'Hungry']
+    nutritional_value = 2  # ['Healthy', 'Unhealthy']
+    enticement_level = 3  # ['Tasty', 'Unenticing']
 
     yes = 1
     no = 0
-=======
->>>>>>> parent of 3b4f4b8... Prepare to make Dessert data
 
     '''
     Perfect
@@ -34,23 +33,18 @@ class DessertData:
     Noise
     '''
 
-    def __init__(self, numrows, features = None, classes = None):
+    def __init__(self, numrows, features=None, classes=None):
         if features is None:
-            all_combinations = self.unique_combos()      # generate all combos
-            self.features = self.expand(all_combinations, numrows)   #expand
+            all_combinations = self.unique_combos()  # generate all combos
+            self.features = self.expand(all_combinations, numrows)  # expand
         else:
-            self.features = features      # numrows needs to match len classes
+            self.features = features  # numrows needs to match len classes
 
         if classes is None:
-<<<<<<< HEAD
-            answer = self.choice_answer()    # resulting class
+            answer = self.choice_answer()  # resulting class
             self.classes = answer
-=======
-            self.classes = []
->>>>>>> parent of 3b4f4b8... Prepare to make Dessert data
         else:
-            self.classes = classes      # 3 classes
-
+            self.classes = classes  # 3 classes
 
     # method to get answer
     def choice_answer(self):
@@ -60,7 +54,7 @@ class DessertData:
         classes = [0. for _ in self.features]
         for i, observation in enumerate(self.features):
             [meal, satiety, nutritional, enticement] = observation
-            if meal == yes and satiety == yes and  nutritional == yes:
+            if meal == yes and satiety == yes and nutritional == yes:
                 classes[i] = Dessert
             elif meal == yes and satiety == no and enticement == yes:
                 classes[i] = Dessert
@@ -101,7 +95,7 @@ class DessertData:
     # Method to expand the perfect DessertData
     def expand(self, all_combinations, numrows):
         sampleInd = np.random.choice(all_combinations.shape[0], numrows,
-                                     replace=numrows>16)
+                                     replace=numrows > 16)
         expanded = all_combinations[sampleInd]
         return expanded
 
@@ -112,24 +106,13 @@ class DessertData:
     # Method to create two DessertData objects from one DessertData Object
     def split(self, percent):
 
-<<<<<<< HEAD
-
         return DessertData(self.features, self.classes), DessertData(
             self.features, self.classes)
-
-
-=======
-    def expand(self, numrows):
-        pass
->>>>>>> parent of 3b4f4b8... Prepare to make Dessert data
-
-
-
 
     '''
     Starting Strategy to make the Data 
 
-    
+
     num_observations = 100
     # Space allocation: filled with '_' for list of list to flip
     observations = [['_']*4 for _ in range(num_observations)]
@@ -162,8 +145,6 @@ class DessertData:
             nutritional = "?"
 
     '''
-
-
 
     '''   
      For loop to classify the features aka add in the classes corresponding
