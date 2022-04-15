@@ -19,19 +19,18 @@ from DecisionTree import DecisionTree
 
 if __name__ == '__main__':
     # Constants
-    numrows = 10
-    noiselevel = 0.1
+    numrows = 20
+    noiselevel = 0
     percent = .9
     # maybe for loop
 
     # cleandataset with feat and class
-    data = DessertData()                    # data is dessert data object
+    data = DessertData(numrows)                    # data is dessert data object
 
-    # Expand and add noise
-    data.expand(numrows)
+    #Add noise
     data.addnoise(noiselevel)
 
-    decision = DecisionTree(data.features, data.classes)  # Decision tree
     trainset, testset = data.split(percent)     # Splitting data
-    decision.train(trainset.features, trainset.classes)
-    probability = decision.test(testset.features, testset.classes)
+    decision = DecisionTree(trainset)           # Decision tree
+
+    probability = decision.test(testset)
