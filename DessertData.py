@@ -1,5 +1,6 @@
 # import random
 import numpy as np
+import math
 
 
 # import pandas as pd
@@ -12,8 +13,6 @@ class DessertData:
               tree stored as a list of lists.
     classes: The dessert stored as a list.
 
-
-    '''
     # Dessert Classes - Constants
     Dessert = 0
     Water = 1
@@ -26,69 +25,123 @@ class DessertData:
 
     yes = 1
     no = 0
-
-    '''
-    Perfect
-    Expand/contract 
-    Noise
     '''
 
-    def __init__(self, numrows, features=None, classes=None):
-        if features is None:
-            all_combinations = self.unique_combos()  # generate all combos
-            self.features = self.expand(all_combinations, numrows)  # expand
-        else:
-            self.features = features  # numrows needs to match len classes
 
-        if classes is None:
-            answer = self.choice_answer()  # resulting class
-            self.classes = answer
-        else:
-            self.classes = classes  # 3 classes
+    '''
+    test data: 
+    self._features = ["Fever", "Cough", "Breathing"]
+    self._classes = [0,1,0,1,1,0,1,1,1,1,0,1,0,0]
+
+    '''
+
+    dt_final = False
+    if dt_final:
+        def __init__(self, numrows, features=None, classes=None):
+
+                if features is None:
+                    all_combinations = self.unique_combos()  # generate all combos
+                    self.features = self.expand(all_combinations, numrows)  # expand
+                else:
+                    self.features = features  # numrows needs to match len classes
+
+                if classes is None:
+                    answer = self.choice_answer()  # resulting class
+                    self.classes = answer
+                else:
+                    self.classes = classes  # 3 classes
+
+                self.info_gain = self.ig_method()
+    else:
+        def __init__(self, features = None, classes = None):
+            if features is None:
+                self.features = self.unique_combos()  # generate covid data
+            else:
+                self.features = features  # numrows needs to match len classes
+
+            if classes is None:
+                answer = self.choice_answer()  # resulting class
+                self.classes = answer
+            else:
+                self.classes = classes  # 2 classes
+
+            self.info_gain = self.ig_method()
+
+
+
 
     # method to get answer
     def choice_answer(self):
         Dessert = 1
         Water = 0
         no, yes = 0, 1
+
         classes = [0. for _ in self.features]
-        for i, observation in enumerate(self.features):
-            [meal, satiety, nutritional, enticement] = observation
-            if meal == yes and satiety == yes and nutritional == yes:
-                classes[i] = Dessert
-            elif meal == yes and satiety == no and enticement == yes:
-                classes[i] = Dessert
-            elif meal == no and satiety == yes and \
-                    nutritional == yes:
-                classes[i] = Dessert
-            elif meal == no and satiety == yes and \
-                    nutritional == no:
-                classes[i] = Dessert
-            else:
-                classes[i] = Water
+
+        dt_final = False
+        if dt_final:
+            for i, observation in enumerate(self.features):
+                [meal, satiety, nutritional, enticement] = observation
+                if meal == yes and satiety == yes and nutritional == yes:
+                    classes[i] = Dessert
+                elif meal == yes and satiety == no and enticement == yes:
+                    classes[i] = Dessert
+                elif meal == no and satiety == yes and \
+                        nutritional == yes:
+                    classes[i] = Dessert
+                elif meal == no and satiety == yes and \
+                        nutritional == no:
+                    classes[i] = Dessert
+                else:
+                    classes[i] = Water
+        else:
+            # Test case with known classes
+            classes =  [0,1,0,1,1,0,1,1,1,1,0,1,0,0]
+
         return classes
+
 
     # Method for unique combinations
     def unique_combos(self):
-        ate, full, healthy, tasty = 1, 1, 1, 1
-        fasted, hungry, unhealthy, unenticing = 0, 0, 0, 0
+        dt_final = False
+        if dt_final:
+            ate, full, healthy, tasty = 1, 1, 1, 1
+            fasted, hungry, unhealthy, unenticing = 0, 0, 0, 0
 
-        rows = [[ate, full, healthy, tasty],
-                [ate, full, healthy, unenticing],
-                [ate, full, unhealthy, tasty],
-                [ate, full, unhealthy, unenticing],
-                [ate, hungry, healthy, tasty],
-                [ate, hungry, healthy, unenticing],
-                [ate, hungry, unhealthy, tasty],
-                [ate, hungry, unhealthy, unenticing],
-                [fasted, full, healthy, tasty],
-                [fasted, full, healthy, unenticing],
-                [fasted, full, unhealthy, tasty],
-                [fasted, full, unhealthy, unenticing],
-                [fasted, hungry, healthy, tasty],
-                [fasted, hungry, healthy, unenticing],
-                [fasted, hungry, unhealthy, tasty],
-                [fasted, hungry, unhealthy, unenticing]]
+            rows = [[ate, full, healthy, tasty],
+                    [ate, full, healthy, unenticing],
+                    [ate, full, unhealthy, tasty],
+                    [ate, full, unhealthy, unenticing],
+                    [ate, hungry, healthy, tasty],
+                    [ate, hungry, healthy, unenticing],
+                    [ate, hungry, unhealthy, tasty],
+                    [ate, hungry, unhealthy, unenticing],
+                    [fasted, full, healthy, tasty],
+                    [fasted, full, healthy, unenticing],
+                    [fasted, full, unhealthy, tasty],
+                    [fasted, full, unhealthy, unenticing],
+                    [fasted, hungry, healthy, tasty],
+                    [fasted, hungry, healthy, unenticing],
+                    [fasted, hungry, unhealthy, tasty],
+                    [fasted, hungry, unhealthy, unenticing]]
+
+        else:
+            fever, cough, breathproblem = 1,1,1
+            nofever, nocough, breathnormal = 0,0,0
+            rows =  [[nofever, nocough, breathnormal],
+                    [fever, cough, breathproblem],
+                    [fever, cough, breathnormal],
+                    [fever, nocough, breathproblem],
+                    [fever, cough, breathproblem],
+                    [nofever,cough,breathnormal],
+                    [fever,nocough,breathproblem],
+                    [fever,nocough,breathproblem],
+                    [nofever,cough,breathproblem],
+                    [fever,cough,breathnormal],
+                    [nofever,cough,breathnormal],
+                    [nofever,cough,breathproblem],
+                    [nofever,cough,breathproblem],
+                    [fever,cough,breathnormal]]
 
         return np.array(rows)
 
@@ -108,6 +161,118 @@ class DessertData:
 
         return DessertData(self.features, self.classes), DessertData(
             self.features, self.classes)
+
+    # Calculate the Entropy
+    # self.entropy = self.calc_entropy([x for x in range(len(self.classes))])
+
+    '''
+    Returns Entropy: the amount of information gain there is at each node
+    - entropy of a set S is the average information gain per sample, 
+    --> H(S) = sum -p(x)log(p(x)) 
+    where X are the classifications (e.g., dessert, water)
+    and p(x) is the proportion of set S that are classified as x
+    H(S) = 0 when S is perfectly classified 
+    '''
+
+    def calc_entropy(self, data):
+
+        tot_rows = len(data)  # num of rows, based on classes list or all data
+        entropy = 0  # initialize
+        count_dessert = 0
+        count_water = 0
+
+        # List of the number of rows that have that class value
+        class_list = []
+
+        # For loop that goes through the list or data to found the # of rows
+        for i, val in enumerate(data):
+
+            if data[i] == 0:            # for water
+                count_water += 1
+            if data[i] == 1:            # for dessert
+                count_dessert += 1
+        class_list.append(count_water)
+        class_list.append(count_dessert)
+        # Calc entropy for each class in the list of classes
+        for clas in class_list:
+            # Apply entropy formula
+            class_entropy = - (clas / tot_rows) * math.log2(clas / tot_rows)  # entropy of the class
+
+            # adding the class entropy to the entropy of the list/dataset
+            entropy += class_entropy
+
+
+        return entropy
+
+
+
+
+
+    '''
+      Calculates the information gain of splitting a set S based on a specific 
+      features (when we create a new node in the tree)
+
+      Info_gain(S,feature), = H(S) - sum p(t)H(t) where t in T are the tubsets 
+      of the data created by the split, and p(t) is the proportion of the 
+      number of elements in each subsset to the number of elements in set S
+      S = dataframe?
+      '''
+    def ig_method(self):
+        info_gain = []
+        total_rows = len(self.features)
+        print(self.features,self.classes, 'f')
+        for feature in self.features[0]:        # number of columns
+            sumfeature = 0
+            for featureval in [0,1]:
+
+
+                # indeces of the feature that satisfy condition
+                ind_feat = [row for row in range(len(self.features)) if
+                                   self.features[row][feature] == featureval]
+                print(ind_feat)
+                # class value correponding to the indeces of the features
+                val_corr = [self.classes[ind] for ind in ind_feat]
+
+                # Summation part of the formula (proportion * entropy)
+                sumfeature += (len(val_corr)/total_rows) * \
+                        self.calc_entropy(val_corr)
+
+            info_gain.append(self.calc_entropy(self.classes) - sumfeature)
+
+        return info_gain            #list of ig for each feature
+
+    '''
+    entropy: entropy of all the classes, doesn't matter what it is 
+    - list of you are looking at. 
+    - entropy, go through list, and figure out entropy 
+
+    '''
+
+
+    def get_max_info(self):
+
+        return None
+
+        #unique_features =
+        #return info_gain
+
+
+    def remove_feature(self, feature_info):
+        # thinking that feature_info is a list
+
+        pass
+
+
+
+
+
+
+        pass
+
+
+
+
+
 
     '''
     Starting Strategy to make the Data 

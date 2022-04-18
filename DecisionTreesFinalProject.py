@@ -25,7 +25,9 @@ if __name__ == '__main__':
     # maybe for loop
 
     # cleandataset with feat and class
-    data = DessertData(numrows)                    # data is dessert data object
+    # numrows for dt_final # data is dessert data object
+    data = DessertData()
+
 
     #Add noise
     data.addnoise(noiselevel)
@@ -35,4 +37,3 @@ if __name__ == '__main__':
 
     probability = decision.test(testset)
 
-    # make sure I can push to git
