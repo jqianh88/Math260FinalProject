@@ -162,6 +162,7 @@ class DessertData:
         return DessertData(self.features, self.classes), DessertData(
             self.features, self.classes)
 
+
     # Calculate the Entropy
     # self.entropy = self.calc_entropy([x for x in range(len(self.classes))])
 
@@ -195,16 +196,15 @@ class DessertData:
         class_list.append(count_dessert)
         # Calc entropy for each class in the list of classes
         for clas in class_list:
-            # Apply entropy formula
-            class_entropy = - (clas / tot_rows) * math.log2(clas / tot_rows)  # entropy of the class
+            prop = float(clas/tot_rows)        # proportion
+            # Apply entropy formula for the class
+            class_entropy = -prop * math.log2(clas / tot_rows)
 
             # adding the class entropy to the entropy of the list/dataset
             entropy += class_entropy
 
 
         return entropy
-
-
 
 
 
@@ -218,34 +218,80 @@ class DessertData:
       S = dataframe?
       '''
     def ig_method(self):
-        info_gain = []
         total_rows = len(self.features)
-        print(self.features,self.classes, 'f')
-        for feature in self.features[0]:        # number of columns
-            sumfeature = 0
-            for featureval in [0,1]:
+        unique_features = self.features[0]
+
+        # Entropy of the whole dataset
+        total_entropy = self.calc_entropy(self.classes)
+        # Obtain all values under a column (which is a feature)
+
+        # initialize list of lists holding all values of given features (col)
+        all_feat_vals = [[]*4 for _ in range(len(unique_features))]
 
 
-                # indeces of the feature that satisfy condition
-                ind_feat = [row for row in range(len(self.features)) if
-                                   self.features[row][feature] == featureval]
-                print(ind_feat)
-                # class value correponding to the indeces of the features
-                val_corr = [self.classes[ind] for ind in ind_feat]
+        # Loop to obtain all values under a given feature
+        for i, row in enumerate(self.features):
+            print(row)
+            for j, val in enumerate(row):
+                print(val, 'val')
+                all_feat_vals[j].append(val)
+                print(all_feat_vals)
 
-                # Summation part of the formula (proportion * entropy)
-                sumfeature += (len(val_corr)/total_rows) * \
-                        self.calc_entropy(val_corr)
+        subset_entropy = 0                  # initialization
+        subset_feat = [[] for x in range(len(unique_features))]
+        print(subset_feat, 'k')
+        #
+        # initialization
+        info_gain = []
+        # Loop through the list of lists of all the values under a col
+        # [[values for feat 1],[values for feat 2],[values for feat 3]]
+        for i, feat_val_list in enumerate(all_feat_vals):
+            print(feat_val_list, 'list of a feature_s values')
+            # Access each entry for a given column (feature),
+            # its corresponding class value (outcome), and the row in full data
+            for (feat_val, class_val, row)  in zip(feat_val_list,
+                                                    self.classes,
+                                                   self.features):
+                print(row, 'row')
+                # if the feature value and the class value are the same
+                # append the rows from the full dataset
+                if feat_val == class_val:
+                    subset_feat[i].extend([row])     # may need append instead
+                    print(subset_feat, 'subsetdata')
+            # proportion of feat val == outcome divided by total num of outcomes
+            prop = len(subset_feat)/float(len(self.features))
 
-            info_gain.append(self.calc_entropy(self.classes) - sumfeature)
+            subset_entropy = prop*self.calc_entropy(subset_feat)
+            info_gain.append(subset_entropy)
+        ig_list = [(total_entropy - x) for x in info_gain]
 
-        return info_gain            #list of ig for each feature
+
+
+        return ig_list            #list of info gains for each feature
 
     '''
     entropy: entropy of all the classes, doesn't matter what it is 
     - list of you are looking at. 
     - entropy, go through list, and figure out entropy 
 
+
+
+#for featureval in [0,1]:
+
+
+                # indeces of the feature that satisfy condition
+                #ind_feat = [row for row in range(len(self.features)) if
+                #                   self.features[row][feature] == featureval]
+                #print(ind_feat)
+                # class value corresponding to the indeces of the features
+                #val_corr = [self.classes[ind] for ind in ind_feat]
+
+                # Summation part of the formula (proportion * entropy)
+                #sumfeature += (len(val_corr)/total_rows) * \
+                        #self.calc_entropy(val_corr)
+
+            #info_gain.append(self.calc_entropy(self.classes) - sumfeature)
+        #print(info_gain, 'info')
     '''
 
 
@@ -264,10 +310,6 @@ class DessertData:
 
 
 
-
-
-
-        pass
 
 
 

@@ -10,6 +10,7 @@
 # import numpy as np
 from DessertData import DessertData
 from DecisionTree import DecisionTree
+from Node import Node
 
 
 
@@ -24,9 +25,15 @@ if __name__ == '__main__':
     percent = .9
     # maybe for loop
 
+
+    # Create 3 lists
+    allattr = []
+    attrvals = []
+    class_list = []
     # cleandataset with feat and class
     # numrows for dt_final # data is dessert data object
     data = DessertData()
+    gen_tree = Node()
 
 
     #Add noise
