@@ -1,4 +1,4 @@
-from ID3 import ID3
+
 class Node:
 
     '''
@@ -12,7 +12,8 @@ class Node:
         self.parent_value = ''
         self.childlist = []
         self.classification = ''
-        self.root = ID3(attribute, data, allattr, attrvals, classification)
+        self.root = ID3_method(attribute, data, allattr, attrvals,
+                              classification)
 
     # for printing
     def __repr__(self):

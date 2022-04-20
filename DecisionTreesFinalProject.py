@@ -8,8 +8,9 @@
 '''
 
 # import numpy as np
-from DessertData import DessertData
-from DecisionTree import DecisionTree
+import ID3
+from Data import Data
+#from DecisionTree import DecisionTree
 from Node import Node
 
 
@@ -20,27 +21,29 @@ from Node import Node
 
 if __name__ == '__main__':
     # Constants
-    numrows = 20
+    numrows = 100
     noiselevel = 0
     percent = .9
     # maybe for loop
 
 
-    # Create 3 lists
-    allattr = []
-    attrvals = []
-    class_list = []
+
+    # Create 3 lists: by hand for now, later will get it from data
+    allattr = ['meal', 'satiety', 'nutritional', 'enticement' ]
+    attrvals = [['fasted', 'ate'], ['hungry', 'full'],
+                ['unhealthy', 'healthy'], ['unenticing', 'tasty']]
+    class_list = ['water', 'dessert']
+
     # cleandataset with feat and class
     # numrows for dt_final # data is dessert data object
-    data = DessertData()
-    gen_tree = Node()
+    data = Data(numrows)
 
+    fulldata = data.expand(numrows)
+    #gen_tree = Node()
 
-    #Add noise
-    data.addnoise(noiselevel)
+    # Split data into train and test sets
+    trainset, testset = data.split(percent, numrows)
+    decision = Node(trainset)           # Decision tree
 
-    trainset, testset = data.split(percent)     # Splitting data
-    decision = DecisionTree(trainset)           # Decision tree
-
-    probability = decision.test(testset)
+    #probability = decision.test(testset)
 
