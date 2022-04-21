@@ -33,12 +33,12 @@ class Data:
 
 
     def __init__(self, numrows, attr_classes=None):
-
-            if attr_classes is None:
-                all_combinations = self.unique_combos()  # generate all combos
-                self.attr_classes = self.expand(numrows)  # expand
-            else:
-                self.attr_classes = attr_classes  # numrows needs to match len classes
+        self.attr_classes = []
+        if attr_classes is None:
+            all_combinations = self.unique_combos()  # generate all combos
+            self.attr_classes = self.expand(numrows)  # expand
+        else:
+            self.attr_classes = attr_classes  # numrows needs to match len classes
 
 
     # Method for unique combinations
@@ -83,14 +83,12 @@ class Data:
         trainnumrows = int(percent * numrows)  # make it an int
         train_data = self.attr_classes[:trainnumrows]  # all rows up to 90%
         test_data = self.attr_classes[trainnumrows:]   # last 10%
-        return train_data, test_data
+        return Data(len(train_data), train_data), \
+               Data(len(test_data), test_data)
 
 
 
-    def remove_feature(self, feature_info):
-        # thinking that feature_info is a list
 
-        pass
 
 
 

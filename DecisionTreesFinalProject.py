@@ -10,6 +10,7 @@
 # import numpy as np
 from ID3 import ID3_method
 from Data import Data
+from Covidtestdata import Covidtestdata
 #from DecisionTree import DecisionTree
 from Node import Node
 
@@ -35,18 +36,30 @@ if __name__ == '__main__':
                 ['unhealthy', 'healthy'], ['unenticing', 'tasty']]
     classif_list = ['water', 'dessert']
 
+
+    allattr = ['fever', 'cough', 'breathing']
+    attr = ['fever', 'cough', 'breathing']
+    attrvals = [['no', 'yes'], ['no', 'yes'], ['no', 'yes']]
+    classif_list = ['negative', 'positive']
+    numrows = 14
+    percent = 1
+
     # cleandataset with feat and class
     # numrows for dt_final # data is dessert data object
-    perfectdata = Data(numrows)
+    data = Covidtestdata(numrows)
 
-    data = perfectdata.expand(numrows)
 
-    # attr starts out just like allattr
-    gen_tree = ID3_method(attr, data, allattr, attrvals, classif_list)
 
     # Split data into train and test sets
-    trainset, testset = data.split(percent, numrows)
-    decision = Node(trainset)           # Decision tree
+    trainset, testset = data.split(percent)
 
-    #probability = decision.test(testset)
+    # attr starts out just like allattr
+    # gentree is the node that is the tree
+    gen_tree = ID3_method(attr, trainset, allattr, attrvals, classif_list)
+
+    print(gen_tree)
+
+
+
+
 
