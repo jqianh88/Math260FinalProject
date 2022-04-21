@@ -11,19 +11,22 @@ class_list: list of possible unique outcomes/classifications
 
 import math
 from Node import Node
+#import numpy as np
 #from Data import Data
 #from DessertData import DessertData
 
+# Does this need to be a class?
+
 '''
-4 attributes in the dataset: 
+4 attributes in the dataset:
     - meal_consumption = 0  # ['Ate', 'Fasted']
     - satiety_level = 1  # ['Full', 'Hungry']
     - nutritional_value = 2  # ['Healthy', 'Unhealthy']
     - enticement_level = 3  # ['Tasty', 'Unenticing']
 
-2 Classes: 
+2 Classes:
     - Dessert: eat dessert ("dessert")
-    - Water = drink water ("water") 
+    - Water = drink water ("water")
 
 
 '''
@@ -62,6 +65,7 @@ def ID3_method(attr, data, allattr, attrvals, classif_list):
     info_gain = [0.0 for x in attr]
 
     for i, ea_attr in enumerate(attr):
+        print(ea_attr, 'ea_attr')
         for j, ea_attr_val in enumerate(attrvals[i]):
 
             # List comprehension: keep rows that have entries matching attr_val
@@ -69,7 +73,8 @@ def ID3_method(attr, data, allattr, attrvals, classif_list):
 
             # Calculate information gain of specific attribute by summing
             # across each attribute_value
-            info_gain[i] -= (len(subset)/len(data))*calc_entropy(subset)
+            info_gain[i] -= (len(subset)/len(data))*calc_entropy(
+                subset)
 
         info_gain[i] += H     # Subtract entropy from this attr from H(S)
 
@@ -80,15 +85,33 @@ def ID3_method(attr, data, allattr, attrvals, classif_list):
     for i, ea_attr_val in enumerate(attrvals[max_index]):
 
         # List comprehension: keep rows that have entries matching attr_val
-        subset = [sublist for sublist in data if sublist[i] == ea_attr_val]
+        subset = [sublist for sublist in data if sublist[i] ==
+                  ea_attr_val]
+        # Current issue is subset doesn't have classes attribute
+
+        for i, spec_attr in enumerate(attr):
+            if spec_attr == node.attribute:
+
+                # Not sure if necessary
+                #subattr = attr.copy()    # Copy to prevent overwriting
+
+                # Find index
+                remove_attribute = attr.index(spec_attr)
+
+                # Remove attribute from changeable attr list
+                attr.pop(remove_attribute)
+
 
         # Recursive step to get subsequent nodes
-        child_node = ID3_method(attr.remove(allattr[max_index]), subset,
+        # - problem subset is not of the right type
+        child_node = ID3_method(attr, subset,
                                 allattr,
                          attrvals, classif_list)
 
 
         node.childlist.append(child_node)
+
+
     return node
 
 

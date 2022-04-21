@@ -8,7 +8,7 @@
 '''
 
 # import numpy as np
-import ID3
+from ID3 import ID3_method
 from Data import Data
 #from DecisionTree import DecisionTree
 from Node import Node
@@ -30,16 +30,19 @@ if __name__ == '__main__':
 
     # Create 3 lists: by hand for now, later will get it from data
     allattr = ['meal', 'satiety', 'nutritional', 'enticement' ]
+    attr = ['meal', 'satiety', 'nutritional', 'enticement']
     attrvals = [['fasted', 'ate'], ['hungry', 'full'],
                 ['unhealthy', 'healthy'], ['unenticing', 'tasty']]
-    class_list = ['water', 'dessert']
+    classif_list = ['water', 'dessert']
 
     # cleandataset with feat and class
     # numrows for dt_final # data is dessert data object
-    data = Data(numrows)
+    perfectdata = Data(numrows)
 
-    fulldata = data.expand(numrows)
-    #gen_tree = Node()
+    data = perfectdata.expand(numrows)
+
+    # attr starts out just like allattr
+    gen_tree = ID3_method(attr, data, allattr, attrvals, classif_list)
 
     # Split data into train and test sets
     trainset, testset = data.split(percent, numrows)
