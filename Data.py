@@ -25,6 +25,7 @@ class Data:
 
     yes = 1
     no = 0
+
     '''
 
 
@@ -35,7 +36,7 @@ class Data:
     def __init__(self, numrows, attr_classes=None):
         self.attr_classes = []
         if attr_classes is None:
-            all_combinations = self.unique_combos()  # generate all combos
+            self.attr_classes = self.unique_combos()  # generate all combos
             self.attr_classes = self.expand(numrows)  # expand
         else:
             self.attr_classes = attr_classes  # numrows needs to match len classes
@@ -65,15 +66,59 @@ class Data:
                 [fasted, hungry, unhealthy, unenticing, dessert]]
 
 
+
         return np.array(data)
+
+
+    '''
+    
+            data = [[ate, full, healthy, tasty, dessert],
+                [ate, full, healthy, unenticing, dessert],
+                [ate, full, unhealthy, tasty, dessert],
+                [ate, full, unhealthy, unenticing, water],
+                [ate, hungry, healthy, tasty, dessert],
+                [ate, hungry, healthy, unenticing, dessert],
+                [ate, hungry, unhealthy, tasty, water],
+                [ate, hungry, unhealthy, unenticing, water],
+                [fasted, full, healthy, tasty, water],
+                [fasted, full, healthy, unenticing, water],
+                [fasted, full, unhealthy, tasty, water],
+                [fasted, full, unhealthy, unenticing, water],
+                [fasted, hungry, healthy, tasty, dessert],
+                [fasted, hungry, healthy, unenticing, dessert],
+                [fasted, hungry, unhealthy, tasty, dessert],
+                [fasted, hungry, unhealthy, unenticing, dessert]]
+                
+                
+            data = [['ate', 'full', 'healthy', 'tasty', 'dessert'],
+                ['ate', 'full', 'healthy', 'unenticing', 'dessert'],
+                ['ate', 'full', 'unhealthy', 'tasty', 'dessert'],
+                ['ate', 'full', 'unhealthy', 'unenticing', 'water'],
+                ['ate', 'hungry', 'healthy', 'tasty', 'dessert'],
+                ['ate', 'hungry', 'healthy', 'unenticing', 'dessert'],
+                ['ate', 'hungry', 'unhealthy', 'tasty', 'water'],
+                ['ate', 'hungry', 'unhealthy', 'unenticing', 'water'],
+                ['fasted', 'full', 'healthy', 'tasty', 'water'],
+                ['fasted', 'full', 'healthy', 'unenticing', 'water'],
+                ['fasted', 'full', 'unhealthy', 'tasty', 'water'],
+                ['fasted', 'full', 'unhealthy', 'unenticing', 'water'],
+                ['fasted', 'hungry', 'healthy', 'tasty', 'dessert'],
+                ['fasted', 'hungry', 'healthy', 'unenticing', 'dessert'],
+                ['fasted', 'hungry', 'unhealthy', 'tasty', 'dessert'],
+                ['fasted', 'hungry', 'unhealthy', 'unenticing', 'dessert']]
+        attrvals = [['fasted', 'ate'], ['hungry', 'full'],
+                ['unhealthy', 'healthy'], ['unenticing', 'tasty']]
+    '''
 
 
     # Method to expand the perfect Data by random sampling the perfect
     # dataset to make a dataset of numrows length
     def expand(self, numrows):
 
-        expanded = self.unique_combos()[np.random.choice(
-            self.unique_combos().shape[0],numrows, replace= numrows>16)]
+        sampleInd = np.random.choice(
+            self.attr_classes.shape[0],numrows, replace= numrows>16)
+
+        expanded = self.attr_classes[sampleInd]
 
         return expanded
 
