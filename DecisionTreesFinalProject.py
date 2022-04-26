@@ -53,23 +53,12 @@ if __name__ == '__main__':
 
     #numrows = 14
     #percent = 1
-    # make them strings, and make them strings in the data
-    # get print working
 
-    # Need to match up list to list tie in or dictionary
-    # list of dictionaries, or list of tuples (use tuples), 1 entry dictionary
-    # Tuple = (key, value)
-    # whenever you create/update --> each child contains the feature and the
-    # feature value corresponding to that choice , each child is now a tuple
-    # of the feature and feature value (link between those two nodes (the list)
+    # for dataset in range(100): ..... and everything underneath
+    # default for random = F
 
-
-    # cleandataset with feat and class
-    # numrows for dt_final # data is dessert data object
-    data = Data(numrows)
-
-
-
+    # Data Object
+    data = Data(numrows)                # numrows, random = T or F
 
     # Split data into train and test sets
     trainset, testset = data.split(percent, numrows)
@@ -79,25 +68,40 @@ if __name__ == '__main__':
     # gentree is the node that is the tree
     gen_tree = ID3_method(attr, trainset, allattr, attrvals, classif_list)
     temp = gen_tree.parent_value
-    print(temp, 'sep')
-    print(gen_tree, 'final')
-
-
-
+    #print(gen_tree, 'final')
+    #print(gen_tree.attribute, 'feature')
 
     correct_count = 0       # initialize count
-
-    # Loop through the entire test data set for each row to determine if
-    # correctly classified
-    for dataline in testset:
-        classification_q = classify(gen_tree, dataline)     # Call classify func
+    for dataline in testset.attr_classes:
+        # Call classify func
+        classification_q = classify(gen_tree, dataline, allattr, attrvals)
 
         # If the test data classification and the training data created tree
         # classification match
-        if classification_q == classif_list[dataline[[-1]]]:
+        if classification_q == classif_list[dataline[-1]]:
             correct_count += 1                      # increment for correctly
             # classified
-    efficacy = correct_count/len(testset)           # percent correct
+    efficacy = correct_count/len(testset.attr_classes)        # percent correct
+    print(efficacy)
+
+# ------ end inside loop
+
+    # start of showing there is not perfect classification
+
+    # Loop through the entire test data set for each row to determine if
+    # correctly classified
+    correct_count = 0
+    testset.attr_classes[0][2] = 1
+    for dataline in testset.attr_classes:
+        # Call classify func
+        classification_q = classify(gen_tree, dataline, allattr, attrvals)
+
+        # If the test data classification and the training data created tree
+        # classification match
+        if classification_q == classif_list[dataline[-1]]:
+            correct_count += 1                      # increment for correctly
+            # classified
+    efficacy = correct_count/len(testset.attr_classes)        # percent correct
     print(efficacy)
 
 

@@ -31,9 +31,7 @@ class Data:
 
    # attr_classes: holds the combination of attrs with the element as the class
 
-
-
-    def __init__(self, numrows, attr_classes=None):
+    def __init__(self, numrows, attr_classes=None): #, random = True
         self.attr_classes = []
         if attr_classes is None:
             self.attr_classes = self.unique_combos()  # generate all combos
@@ -113,8 +111,8 @@ class Data:
 
     # Method to expand the perfect Data by random sampling the perfect
     # dataset to make a dataset of numrows length
-    def expand(self, numrows):
-
+    def expand(self, numrows):   # , random)
+        np.random.seed(0)
         sampleInd = np.random.choice(
             self.attr_classes.shape[0],numrows, replace= numrows>16)
 

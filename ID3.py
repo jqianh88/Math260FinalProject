@@ -33,11 +33,12 @@ from Covidtestdata import Covidtestdata
 '''
 
 def ID3_method(attr, data, allattr, attrvals, classif_list):
-    print('attr', attr)
-    print('data', len(data.attr_classes))
-    print('allattr', allattr)
-    print('attrvals', attrvals)
-    print('classif', classif_list)
+    iteration = 0
+    #print('attr', attr)
+    #print('data', len(data.attr_classes))
+    #print('allattr', allattr)
+    #print('attrvals', attrvals)
+    #print('classif', classif_list)
 
     # Base Case 1:
     if attr == []:
@@ -55,10 +56,11 @@ def ID3_method(attr, data, allattr, attrvals, classif_list):
 
         # look at data and pick most freq occurring class
         node.classification = classif_list[max_index_count]
+
         return node
 
     # Entropy for whole data
-    H = calc_entropy(data)
+    H = calc_entropy(data, classif_list)
 
     # Base Case 2:
     if H == 0:
@@ -74,6 +76,8 @@ def ID3_method(attr, data, allattr, attrvals, classif_list):
 
         # look at data and pick most freq occ class
         node.classification = classif_list[max_index_count]
+
+
         return node
 
     '''   
@@ -114,7 +118,7 @@ def ID3_method(attr, data, allattr, attrvals, classif_list):
             # Calculate information gain of specific attribute by summing
             # across each attribute_value
             info_gain[i] -= (len(subset.attr_classes)/len(data.attr_classes))\
-                            * calc_entropy(subset)
+                            * calc_entropy(subset, classif_list)
 
         #info_gain[i] += H     # Subtract entropy from this attr from H(S)
 
@@ -152,10 +156,7 @@ def ID3_method(attr, data, allattr, attrvals, classif_list):
 
         # append child
         node.childlist.append(child_node)
-        # This is where to fix, update childlist
-
     return node
-
 
 
 '''
@@ -167,7 +168,43 @@ and p(x) is the proportion of set S that are classified as x
 H(S) = 0 when S is perfectly classified 
 '''
 
-def calc_entropy(data): #, class_list):
+def calc_entropy(data, classif_list):
+    # If no data no entropy
+    if len(data.attr_classes) == 0:
+        return 0
+    tot_rows = len(data.attr_classes)  # num of rows
+    entropy = 0  # initialize
+
+    class_list = [0 for x in classif_list]
+
+    # Loop through to get the counts
+    for row in data.attr_classes:
+
+        class_list[row[-1]] += 1
+
+    # Calc entropy for each class in the list of classes by looping through
+    for clas_count in class_list:
+        prop = float(clas_count/tot_rows)        # proportion
+
+        if prop == 0:
+            class_entropy = 0
+        else:
+
+            # Apply entropy formula for the class
+            class_entropy = -prop * math.log2(prop)
+
+        # adding the class entropy to the entropy of the list/dataset
+        entropy += class_entropy
+
+    return entropy
+
+
+
+
+
+
+
+'''def calc_entropy(data): #, class_list):   #old way
     # If no data no entropy
     if len(data.attr_classes) == 0:
         return 0
@@ -208,5 +245,4 @@ def calc_entropy(data): #, class_list):
         # adding the class entropy to the entropy of the list/dataset
         entropy += class_entropy
 
-    return entropy
-
+    return entropy'''
