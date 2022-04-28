@@ -8,4 +8,13 @@ First, it creates the data. Then, it splits the Data into a trainset and testset
 
 
 ## Data
+The Data class makes a data object and has three methods (unique_combinations, expand, and split). First, I make the unique combinations by following the self-made tree. Then, I expand the dataset to the desired number of rows using np.random.choice. Finally, I split the data into a train set and a test set. 
 
+## Node 
+The Node class creates the Node object made up of attribute, parent_value, childlist, and the classification. It has a repr function to print and a correponding method to print in a tree like manner. 
+
+## ID3 
+ID3 has two methods, the ID3_method and the calc_entropy method. ID3_method is the recursive ID3 algorithm that incorporates finding the information gain and choosing the attribute with the maximum information gain to make that the node. It also keeps track (adds the information about the parent value). The calc_entropy method calculates the entropy of the input data. 
+
+## Classify
+The classify file holds the recursive classify method and several helper functions to determine what the decision tree created using the train data would choose following each line of the test data. It gets the index of where the attribute from the decision tree is located to then get the attribute value in the test data. Then, it gets the child node. Finally, it continues this until it hits a leaf node where it returns the classification. 
