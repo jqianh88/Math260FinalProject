@@ -1,26 +1,30 @@
+# This file creates the Node class (a new node) and includes a printing method.
 
 class Node:
 
-    '''
+    """
     Class attributes:
-    Creates empty node and overwrites
-    '''
+    attribute: The string node name or "attribute".
+    parent_value: The string value associated with the "parent" node.
+    childlist: The list of child nodes and their associated parent values.
+    classification: The classification (the outcome).
+    """
 
     def __init__(self, attribute = '', parent_value = '', childlist = [],
                  classification = ''):
         self.attribute = ''                 # question
-        self.parent_value = ''
-        self.childlist = []
+        self.parent_value = ''              # Answer to the question
+        self.childlist = []                 # List of child nodes
         self.classification = ''            # leaf node
 
 
-    # for printing
+
     def __repr__(self):
         S = printNode(self, 0)
 
         return S
 
-
+# Method to print the Tree of nodes
 def printNode(current_Node, level_current_node):
     S = ''
     if current_Node.classification != '':

@@ -1,48 +1,31 @@
-'''
-1) Make decision tree
-2) produce data
-3) split data into train and test
-4) Give to IDE3 code to generate decision tree
-5) Code that tests this decision tree
 
-'''
 
-# import numpy as np
 from ID3 import ID3_method
 from Data import Data
 from classify import classify
 from Covidtestdata import Covidtestdata
-#from DecisionTree import DecisionTree
-from Node import Node
-
-
-
-'''
-outline 
-- 
-
-
-'''
-
-
 
 if __name__ == '__main__':
     # Constants
-    numrows = 100
+    numrows = 10000
     noiselevel = 0
     percent = .9
-    # maybe for loop
 
+    # Create 4 lists: by hand for now, later will get it from data
 
+    allattr = ['meal', 'satiety', 'nutritional', 'enticement']
 
-    # Create 3 lists: by hand for now, later will get it from data
-    allattr = ['meal', 'satiety', 'nutritional', 'enticement' ]
+    # attr starts out starts as allattr, but can be altered
     attr = ['meal', 'satiety', 'nutritional', 'enticement']
+
+    # attrvals are the possible values of each attribute in allattr or attr
     attrvals = [['fasted', 'ate'], ['hungry', 'full'],
                 ['unhealthy', 'healthy'], ['unenticing', 'tasty']]
+
+    # classif_list are the possible classifications or outcomes
     classif_list = ['water', 'dessert']
 
-
+    # Covid Section Lists
     #allattr = ['fever', 'cough', 'breathing']
     #attr = ['fever', 'cough', 'breathing']
     #attrvals = [['nofever', 'fever'], ['nocough', 'cough'], ['nobreath',
@@ -50,12 +33,12 @@ if __name__ == '__main__':
     #classif_list = ['negative', 'positive']
     #attrvals = [[0,1], [0,1], [0,1]]
     #classif_list = [0,1]
-
     #numrows = 14
     #percent = 1
 
-    # for dataset in range(100): ..... and everything underneath
-    # default for random = F
+    # Potential next step:
+        # for dataset in range(100): ..... and everything underneath
+        # default for random = F
 
     # Data Object
     data = Data(numrows)                # numrows, random = T or F
@@ -63,46 +46,66 @@ if __name__ == '__main__':
     # Split data into train and test sets
     trainset, testset = data.split(percent, numrows)
 
-
-    # attr starts out just like allattr
-    # gentree is the node that is the tree
+    # Creating the Decision Tree
     gen_tree = ID3_method(attr, trainset, allattr, attrvals, classif_list)
-    temp = gen_tree.parent_value
-    #print(gen_tree, 'final')
-    #print(gen_tree.attribute, 'feature')
 
+    # Printing out the Decision Tree
+    print('Thank you for your interest in the Food Choice Decision Tree!')
+    print()
+    print(gen_tree)
+    print()
+    print('The decision tree is complete.')
+    print()
+
+    print('Now we look at the accuracy of the ID3 algorithm!')
     correct_count = 0       # initialize count
     for dataline in testset.attr_classes:
+
         # Call classify func
         classification_q = classify(gen_tree, dataline, allattr, attrvals)
 
-        # If the test data classification and the training data created tree
-        # classification match
+        """        
+        If the test data classification and the training data 
+        classification from the tree are equal then increment 
+        """
         if classification_q == classif_list[dataline[-1]]:
-            correct_count += 1                      # increment for correctly
-            # classified
+            correct_count += 1            # increment for correctly classified
     efficacy = correct_count/len(testset.attr_classes)        # percent correct
-    print(efficacy)
+    print(f'We have {efficacy*100}% accuracy!')
+    print()
 
-# ------ end inside loop
 
-    # start of showing there is not perfect classification
 
-    # Loop through the entire test data set for each row to determine if
-    # correctly classified
-    correct_count = 0
-    testset.attr_classes[0][2] = 1
+        # ------ end potential next step loop
+
+    # Begin purposeful display of not perfect classification
+    print('What if we purposefully flip one classification in the test data \n'
+          'so that it does not follow the tree?')
+    correct_count = 0         # Initialize the number of correct classifications
+
+    """
+    Change a single classification in a row of the test data so it doesn't 
+    follow the logic of the tree.
+    """
+    testset.attr_classes[0][4] = 0
+
+    """
+    Loop through the entire test data set for each row to determine if
+    correctly classified
+    """
     for dataline in testset.attr_classes:
-        # Call classify func
+
+        # Call classify function
         classification_q = classify(gen_tree, dataline, allattr, attrvals)
 
-        # If the test data classification and the training data created tree
-        # classification match
+        """        
+        If the test data classification and the training data 
+        classification from the tree are equal then increment 
+        """
         if classification_q == classif_list[dataline[-1]]:
-            correct_count += 1                      # increment for correctly
-            # classified
+            correct_count += 1              # increment for correctly classified
     efficacy = correct_count/len(testset.attr_classes)        # percent correct
-    print(efficacy)
+    print(f' We get {efficacy * 100}% accuracy, as expected!')
 
 
 
