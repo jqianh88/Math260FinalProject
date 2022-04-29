@@ -21,8 +21,7 @@ def classify(node, dataline, allattr, attrvals):
     Get the column number in dataline whose value is equal to the attribute 
     value in the allattr list. 
     """
-    column_num = get_column_num(allattr, node.attribute)
-
+    column_num = get_column_num(allattr, node.attribute)[0]
     # Get the attribute value
     attr_value = dataline[column_num]
 
