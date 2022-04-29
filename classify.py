@@ -50,13 +50,6 @@ def get_column_num(allattr, attribute):
     """
     index = [ind for ind, attr in enumerate(allattr) if attr == attribute]
     return index
-'''    
-Old way: 
-
-for index, attr in enumerate(allattr):
-    if attr == attribute:
-        return index
-'''
 
 
 """

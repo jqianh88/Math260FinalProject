@@ -6,7 +6,6 @@ that calculates information gain.
 import math
 from Node import Node
 from Data import Data
-from Covidtestdata import Covidtestdata
 
 '''
 The ID3_method recursively returns each node in the decision tree by 
@@ -16,16 +15,13 @@ attribute with the largest information gain to be the next node. The child
 node and parent node's value are stored. This is performed recursively. 
 
 Inputs: 
+    attr: the same list of attributes that can be altered 
+    data: a data object 
+    allattr: a list of attributes
+    attrvals: a list of lists of the attribute values
+    classif_list: a list of classifications 
 
-attr: the same list of attributes that can be altered 
-data: a data object 
-allattr: a list of attributes
-attrvals: a list of lists of the attribute values
-classif_list: a list of classifications 
-
-Outputs: 
-
-A node in the tree. 
+Outputs: A node in the tree. 
 '''
 
 def ID3_method(attr, data, allattr, attrvals, classif_list):
@@ -107,8 +103,6 @@ def ID3_method(attr, data, allattr, attrvals, classif_list):
             info_gain[i] -= (len(subset.attr_classes)/len(data.attr_classes))\
                             * calc_entropy(subset, classif_list)
 
-
-
     max_value = max(info_gain)              # Max info gain in the ig list
     max_index = info_gain.index(max_value)  # Index of the max_info gain
     node.attribute = attr[max_index]   # Name of the max info gain attribute
@@ -147,11 +141,11 @@ The calc_entropy method calculates the entropy of a data object stored as a
 list of lists (rows of data). 
 
 Inputs: 
-data is the data object made up of a list of lists. 
-classif_list is a list of strings composed of the possible classifications. 
+    data is the data object made up of a list of lists. 
+    classif_list is a list of strings composed of the possible classifications. 
 
 Outputs: 
-This method returns the entropy of the given dataset as a float using the 
+    Entropy, the entropy of the given dataset as a float using the 
 formula H(S) = sum -p(x)log(p(x)), where S is the dataset p(x) is the  
 proportion of a set S that are classified as x. H(S) = 0 when S is 
 perfectly classified.
@@ -179,14 +173,6 @@ def calc_entropy(data, classif_list):
             # Increment when it matches the index (also the value)
             if row[-1] == i:
                 class_list[i] += 1
-                # Increment for the
-
-    """
-    Another more obscured way:
-    
-    for row in data.attr_classes:
-        class_list[row[-1]] += 1
-    """
 
     # Loop through to calculate entropy for each class in the list of classes
     for clas_count in class_list:
@@ -210,46 +196,3 @@ def calc_entropy(data, classif_list):
 
 
 
-
-'''def calc_entropy(data): #, class_list):   #old way
-    # If no data no entropy
-    if len(data.attr_classes) == 0:
-        return 0
-    tot_rows = len(data.attr_classes)  # num of rows
-    entropy = 0  # initialize
-    count_dessert = 0       # initialize  # delete
-    count_water = 0            # initialize  # delete
-    #count_list = [0 for x in class_list]
-
-    # List of the number of rows that have that class value
-    class_list = []
-
-    # Loop through to get the counts
-    for row in data.attr_classes:
-        if row[-1] == 0:
-            count_water += 1
-        else:
-            count_dessert += 1
-
-    # Replace for loop above with generalized form. Which option is most freq.
-
-    # Append counts of each classification value
-    class_list.append(count_water)
-    class_list.append(count_dessert)
-
-    # Calc entropy for each class in the list of classes by looping through
-    #for clas_count in count_list:
-    for clas_count in class_list:
-        prop = float(clas_count/tot_rows)        # proportion
-
-        if prop == 0:
-            class_entropy = 0
-        else:
-
-            # Apply entropy formula for the class
-            class_entropy = -prop * math.log2(prop)
-
-        # adding the class entropy to the entropy of the list/dataset
-        entropy += class_entropy
-
-    return entropy'''

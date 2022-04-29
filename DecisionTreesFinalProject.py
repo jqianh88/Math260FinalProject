@@ -3,7 +3,7 @@
 from ID3 import ID3_method
 from Data import Data
 from classify import classify
-from Covidtestdata import Covidtestdata
+
 
 if __name__ == '__main__':
     # Constants
@@ -24,21 +24,6 @@ if __name__ == '__main__':
 
     # classif_list are the possible classifications or outcomes
     classif_list = ['water', 'dessert']
-
-    # Covid Section Lists
-    #allattr = ['fever', 'cough', 'breathing']
-    #attr = ['fever', 'cough', 'breathing']
-    #attrvals = [['nofever', 'fever'], ['nocough', 'cough'], ['nobreath',
-    #                                                         'breathing']]
-    #classif_list = ['negative', 'positive']
-    #attrvals = [[0,1], [0,1], [0,1]]
-    #classif_list = [0,1]
-    #numrows = 14
-    #percent = 1
-
-    # Potential next step:
-        # for dataset in range(100): ..... and everything underneath
-        # default for random = F
 
     # Data Object
     data = Data(numrows)                # numrows, random = T or F
@@ -73,10 +58,6 @@ if __name__ == '__main__':
     efficacy = correct_count/len(testset.attr_classes)        # percent correct
     print(f'We have {efficacy*100}% accuracy!')
     print()
-
-
-
-        # ------ end potential next step loop
 
     # Begin purposeful display of not perfect classification
     print('What if we purposefully flip one classification in the test data \n'
