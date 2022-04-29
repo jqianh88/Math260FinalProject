@@ -18,3 +18,6 @@ ID3 has two methods, the ID3_method and the calc_entropy method. ID3_method is t
 
 ## Classify
 The classify file holds the recursive classify method and several helper functions to determine what the decision tree created using the train data would choose following each line of the test data. It gets the index of where the attribute from the decision tree is located to then get the attribute value in the test data. Then, it gets the child node. Finally, it continues this until it hits a leaf node where it returns the classification. 
+
+#### Note: 
+Please ignore the DecisionTree and DessertData files. They were a first pass at this process, but they currently have no function for the final produect.
