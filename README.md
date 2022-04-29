@@ -6,6 +6,8 @@ DecisionTreesFinalProject contains the '__main__' that will run the algorithm. I
 
 First, it creates the data. Then, it splits the Data into a trainset and testset, Next, I use the ID3 method on the trainset to create the Decision Tree. Finally, to show the efficacy and accuracy of the algorithm I do a two part process. To begin, I count the number of correct classifications and divide by the total number of rows, which should equal 1.0 for a perfectly classified dataset (100% accuracy). Then, I change exactly one classification of the testset to purposely get less than 100% accuracy. Doing so should give a result less than 100%. 
 
+As an extra part to the project, I selected a dataset from Kaggle related to classifying diamonds as natural or lab made. I removed uninteresting variables or ones that were continuous to accomodate the Decision Trees preference for categorical variables. First, I read in the file and extracted the first row for all the attributes and took only unique values from the last columns for the classif_list. Then, I extracted the attribute values and converted the dataset into a list of lists of ints. The rest uses the same algorithms from the base project. 
+
 
 ## Data
 The Data class makes a data object and has three methods (unique_combinations, expand, and split). First, I make the unique combinations by following the self-made tree. Then, I expand the dataset to the desired number of rows using np.random.choice. Finally, I split the data into a train set and a test set. 
